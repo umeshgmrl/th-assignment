@@ -4,15 +4,15 @@ import "./App.css";
 
 function App() {
   return (
-    <>
+    <div className="app">
       <h1>Tigerhall Content</h1>
-      <InputGroup>
+      <InputGroup size="lg" justifyContent="center">
         <InputLeftElement pointerEvents="none">
           <Search2Icon />
         </InputLeftElement>
-        <Input type="tel" placeholder="Phone number" size="lg" />
+        <Input type="text" placeholder="Search" />
       </InputGroup>
-    </>
+    </div>
   );
 }
 

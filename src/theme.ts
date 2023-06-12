@@ -14,8 +14,8 @@ const colors = {
 const theme = extendBaseTheme({
   components: {
     Button,
-    colors,
   },
+  colors,
 });
 
 export default theme;
