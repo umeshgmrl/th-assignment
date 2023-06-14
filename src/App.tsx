@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { Container, Grid, Box, useBreakpointValue } from "@chakra-ui/react";
-import contentCardsSchema from "./api/contentCardsSchema";
+import ContentCardFragment from "./api/ContentCardFragment";
 import { GetContentCardsResponse, ContentCardEdge } from "./types/schemaTypes";
 import SearchBar from "./components/SearchBar";
 import LoadingSkeleton from "./components/LoadingSkeleton";
 import ContentCard from "./components/ContentCard";
-import { getRandomValue } from "./utils";
 import "./App.css";
 
 let debounceTimer: number;
@@ -14,7 +13,7 @@ let debounceTimer: number;
 function App() {
   const [cards, setCards] = useState<ContentCardEdge[]>([]);
   const [keyword, setKeyword] = useState("Cybersecurity");
-  const { loading, error } = useQuery(contentCardsSchema, {
+  const { loading, error } = useQuery(ContentCardFragment, {
     variables: { keyword },
     onCompleted: (data: GetContentCardsResponse) => {
       console.log({ data });

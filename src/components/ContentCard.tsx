@@ -61,10 +61,16 @@ export default function ContentCard({ item }: Props) {
   }
 
   return (
-    <Box as="article" width="full" display="flex" flexDirection="column">
+    <Box
+      as="article"
+      width="full"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+    >
       <Card
         maxW="sm"
-        marginBottom="10"
+        marginBottom="20px"
         borderRadius={8}
         overflow="hidden"
         height="100%"
