@@ -103,9 +103,7 @@ const theme = extendBaseTheme({
   },
 
   colors: {
-    brand: {
-      600: "#FF5900",
-    },
+    brand: "#FF5900",
     secondary: {
       600: "#F78104",
     },
