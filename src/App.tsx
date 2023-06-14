@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import {
+  Container,
   InputGroup,
   Input,
   Card,
@@ -15,6 +16,10 @@ import {
   Tag,
   TagLabel,
   Flex,
+  Grid,
+  useBreakpointValue,
+  SkeletonText,
+  SkeletonCircle,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { useQuery } from "@apollo/client";
@@ -55,8 +60,10 @@ function App() {
 
   if (error) return <p>Error :(</p>;
 
+  const columnCount = useBreakpointValue({ base: 1, md: 2, lg: 3 });
+
   return (
-    <Box className="app">
+    <Container className="app" padding="0px 15px" maxWidth="1200px">
       <h1>Tigerhall Content</h1>
       <InputGroup
         display="flex"
@@ -65,6 +72,8 @@ function App() {
         backgroundColor={"grey.700"}
         justifyContent="space-between"
         alignItems="center"
+        maxWidth="500px"
+        mb="40px"
       >
         <Search2Icon zIndex="1" marginLeft="15px" />
         <Input
@@ -81,101 +90,152 @@ function App() {
           onChange={handleChange}
           backgroundColor={"grey.900"}
         />
-        {loading && <Spinner width={25} height={25} marginRight="15px" />}
+        {loading && (
+          <Spinner
+            width={25}
+            height={25}
+            marginRight="15px"
+            position="absolute"
+            right="0"
+          />
+        )}
       </InputGroup>
-      {cards.map((item: ContentCardEdge, i) => {
-        const urlParts = item.image.uri.split("/");
-        urlParts.splice(3, 0, "resize", "250x");
-        const imageUrl = urlParts.join("/");
+      <Grid
+        templateColumns={`repeat(${columnCount}, 1fr)`}
+        gap={4}
+        width="full"
+      >
+        {!cards.length &&
+          Array(9)
+            .fill(0)
+            .map((_, i) => (
+              <Box
+                borderRadius={8}
+                padding="6"
+                boxShadow="lg"
+                bg="white"
+                width="full"
+                minHeight="474px"
+              >
+                <SkeletonCircle size="10" />
+                <SkeletonText
+                  noOfLines={10}
+                  spacing="5"
+                  skeletonHeight="4"
+                  startColor="white"
+                  endColor="grey.400"
+                />
+              </Box>
+            ))}
 
-        let category = "";
-        let authorFullName = "";
-        let company = "";
-        let length = "";
+        {cards.map((item: ContentCardEdge, i) => {
+          const urlParts = item.image.uri.split("/");
+          urlParts.splice(3, 0, "resize", "250x");
+          const imageUrl = urlParts.join("/");
 
-        if ("categories" in item) {
-          category = item.categories[0].name;
-        }
+          let category = "";
+          let authorFullName = "";
+          let company = "";
+          let length = "";
+          let name = "";
 
-        if ("experts" in item && item.experts.length > 0) {
-          authorFullName = `${item.experts[0].firstName} ${item.experts[0].lastName}`;
-          company = item.experts[0].company;
-        }
+          if ("name" in item) {
+            name = item.name;
+          }
 
-        if ("length" in item) {
-          length = secondsToHoursAndMinutes(item.length);
-        } else if ("readingTime" in item) {
-          length = String(item.readingTime) + "m";
-        }
+          if ("categories" in item) {
+            category = item.categories[0].name;
+          }
 
-        return (
-          <Box key={i} width="full">
-            <Card maxW="sm" marginBottom="10" borderRadius={8}>
-              <CardBody>
-                <Flex position="relative">
-                  <Image
-                    width="100%"
-                    height="200px"
-                    src={imageUrl}
-                    alt="Green double couch with wooden legs"
-                    borderRadius="lg"
-                  />
-                  <Icon
-                    type={item.__typename}
-                    style={{
-                      position: "absolute",
-                      height: "30px",
-                      width: "30px",
-                    }}
-                  />
-                  {length && (
-                    <Tag
-                      position="absolute"
-                      bottom="10px"
-                      right="10px"
-                      borderRadius="full"
-                      variant="solid"
-                      backgroundColor="grey.900"
-                      opacity="0.85"
-                      padding="5px 10px"
-                    >
-                      <TagLabel display="flex" alignItems="center">
-                        <Clock height="15px" width="15px" /> &nbsp;&nbsp;
-                        <Text fontWeight="bold">{length}</Text>
-                      </TagLabel>
-                    </Tag>
-                  )}
-                </Flex>
+          if ("experts" in item && item.experts.length > 0) {
+            authorFullName = `${item.experts[0].firstName} ${item.experts[0].lastName}`;
+            company = item.experts[0].company;
+          }
 
-                <Stack spacing="1" padding="4" paddingBottom="0px">
-                  <Text fontSize="md" color="grey.700" lineHeight="shorter">
-                    {category.toUpperCase()}
-                  </Text>
-                  <Heading size="md" color="black" lineHeight="short">
-                    {item.name}
-                  </Heading>
-                  <Text fontSize="medium" color="grey.800">
-                    {authorFullName}
-                  </Text>
-                  <Text fontSize="medium" fontWeight="bold" color="grey.700">
-                    {company}
-                  </Text>
-                </Stack>
-              </CardBody>
-              {/* <Divider /> */}
-              <CardFooter display="flex" justifyContent="flex-end" padding="4">
-                <Button backgroundColor="white">
-                  <Share />
-                </Button>
-                <Button backgroundColor="white">
-                  <Bookmark />
-                </Button>
-              </CardFooter>
-            </Card>
-          </Box>
-        );
-      })}
-    </Box>
+          if ("length" in item) {
+            length = secondsToHoursAndMinutes(item.length);
+          } else if ("readingTime" in item) {
+            length = String(item.readingTime) + "m";
+          }
+
+          return (
+            <Box
+              as="article"
+              key={i}
+              width="full"
+              display="flex"
+              flexDirection="column"
+            >
+              <Card maxW="sm" marginBottom="10" borderRadius={8}>
+                <CardBody>
+                  <Flex position="relative">
+                    <Image
+                      width="100%"
+                      height="200px"
+                      src={imageUrl}
+                      alt="Green double couch with wooden legs"
+                      borderRadius="lg"
+                    />
+                    <Icon
+                      type={item.__typename}
+                      style={{
+                        position: "absolute",
+                        height: "30px",
+                        width: "30px",
+                      }}
+                    />
+                    {length && (
+                      <Tag
+                        position="absolute"
+                        bottom="10px"
+                        right="10px"
+                        borderRadius="full"
+                        variant="solid"
+                        backgroundColor="grey.900"
+                        opacity="0.85"
+                        padding="5px 10px"
+                      >
+                        <TagLabel display="flex" alignItems="center">
+                          <Clock height="15px" width="15px" /> &nbsp;&nbsp;
+                          <Text fontWeight="bold">{length}</Text>
+                        </TagLabel>
+                      </Tag>
+                    )}
+                  </Flex>
+
+                  <Stack spacing="1" padding="4" paddingBottom="0px">
+                    <Text fontSize="md" color="grey.700" lineHeight="shorter">
+                      {category.toUpperCase()}
+                    </Text>
+                    <Heading size="md" color="black" lineHeight="short">
+                      {name}
+                    </Heading>
+                    <Text fontSize="medium" color="grey.800">
+                      {authorFullName}
+                    </Text>
+                    <Text fontSize="medium" fontWeight="bold" color="grey.700">
+                      {company}
+                    </Text>
+                  </Stack>
+                </CardBody>
+                <CardFooter
+                  display="flex"
+                  justifyContent="flex-end"
+                  padding="4"
+                >
+                  <Button backgroundColor="white">
+                    <Share />
+                  </Button>
+                  <Button backgroundColor="white">
+                    <Bookmark />
+                  </Button>
+                </CardFooter>
+              </Card>
+            </Box>
+          );
+        })}
+      </Grid>
+    </Container>
   );
 }
 
