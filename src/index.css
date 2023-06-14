@@ -2,7 +2,7 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
+  background-color: #001315;
   color-scheme: light dark;
 
   font-synthesis: none;
@@ -10,4 +10,26 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+@font-face {
+  font-family: "PP Neue Montreal";
+  src: local("PPNeueMontreal-Bold"), local("PPNeueMontreal-Bold"),
+    url("/fonts/PPNeueMontreal-Bold.woff2") format("woff2");
+
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 103%;
+}
+
+@font-face {
+  font-family: "PP Neue Montreal";
+  src: local("PPNeueMontreal-Medium"), local("PPNeueMontreal-Medium"),
+    url("/fonts/PPNeueMontreal-Medium.woff2") format("woff2");
+
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 104.2%;
 }

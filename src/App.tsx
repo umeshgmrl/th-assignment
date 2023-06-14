@@ -6,57 +6,26 @@ import {
   Card,
   CardBody,
   CardFooter,
-  ButtonGroup,
-  Button,
   Image,
   Stack,
   Heading,
   Text,
   Divider,
+  InputRightElement,
+  Button,
+  InputLeftAddon,
+  InputRightAddon,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { useQuery, gql } from "@apollo/client";
+import { ReactComponent as LearningPath } from "./icons/LearningPath.svg";
+import { ReactComponent as Share } from "./icons/Share.svg";
+import { ReactComponent as Bookmark } from "./icons/Bookmark.svg";
 import "./App.css";
 
-const CONTENT_CARDS = gql`
-  query ContentCards($keyword: String!) {
-    contentCards(filter: { limit: 20, keywords: $keyword, types: [PODCAST] }) {
-      edges {
-        ... on Podcast {
-          name
-          image {
-            ...Image
-          }
-          categories {
-            ...Category
-          }
-          experts {
-            ...Expert
-          }
-        }
-      }
-    }
-  }
-  fragment Image on Image {
-    uri
-  }
-  fragment Category on Category {
-    name
-  }
-  fragment Expert on Expert {
-    firstName
-    lastName
-    title
-    company
-  }
-`;
-
 const CONTENT_CARDS_2: any = gql`
-  query GetContentCards(
-    $filter: ContentCardsFilter
-    $sorting: ContentCardsSorting
-  ) {
-    contentCards(filter: $filter, sorting: $sorting) {
+  query GetContentCards($keyword: String!) {
+    contentCards(filter: { limit: 24, keywords: $keyword }) {
       edges {
         ... on Podcast {
           ...Podcast
@@ -321,34 +290,72 @@ const CONTENT_CARDS_2: any = gql`
 `;
 
 function App() {
-  const [keyword, setKeyword] = useState("");
+  const [cards, setCards] = useState([]);
+  const [keyword, setKeyword] = useState("Cybersecurity");
   const { loading, error, data } = useQuery(CONTENT_CARDS_2, {
     variables: { keyword },
+    onCompleted: (data) => {
+      setCards(data.contentCards.edges);
+    },
   });
 
   const handleSearch = (value: string) => {
     setKeyword(value);
   };
 
+  const handleChange = (e: any) => {
+    handleSearch(e.target.value);
+  };
+
   useEffect(() => {
     handleSearch(keyword);
   }, [keyword]);
 
-  if (loading) return <p>Loading...</p>;
+  // if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-
-  console.log({ data });
 
   return (
     <div className="app">
+      <Stack spacing={4}>
+        <InputGroup>
+          <InputLeftAddon children="+234" />
+          <Input type="tel" placeholder="phone number" />
+        </InputGroup>
+
+        {/* If you add the size prop to `InputGroup`, it'll pass it to all its children. */}
+        <InputGroup size="sm">
+          <InputLeftAddon children="https://" />
+          <Input placeholder="mysite" />
+          <InputRightAddon children=".com" />
+        </InputGroup>
+      </Stack>
+      <InputGroup size="lg">
+        <Input pr="4.5rem" type="text" placeholder="Enter password" />
+        <InputRightElement width="4.5rem">
+          <Button h="1.75rem" size="sm">
+            Hide
+          </Button>
+        </InputRightElement>
+      </InputGroup>
       <h1>Tigerhall Content</h1>
-      <InputGroup size="lg" justifyContent="center">
-        <InputLeftElement pointerEvents="none">
+      <InputGroup display="flex" marginBottom={30}>
+        <InputLeftElement pointerEvents="none" top="12px" left="12px">
           <Search2Icon />
         </InputLeftElement>
-        <Input type="text" placeholder="Search" />
+        <Input
+          height="40px"
+          width="full"
+          borderRadius={8}
+          type="text"
+          size="lg"
+          fontSize={16}
+          padding={5}
+          paddingLeft="36px"
+          backgroundColor={"grey.700"}
+          onChange={handleChange}
+        />
       </InputGroup>
-      {data.contentCards.edges.map((item, i) => {
+      {cards.map((item, i) => {
         const urlParts = item.image.uri.split("/");
         urlParts.splice(3, 0, "resize", "250x");
         const imageUrl = urlParts.join("/");
@@ -362,45 +369,52 @@ function App() {
 
         return (
           <div key={i}>
-            <h2>{category.name.toUpperCase()}</h2>
+            <Card maxW="sm" marginBottom="10" borderRadius={8}>
+              <CardBody>
+                <Image
+                  width="100%"
+                  height="200px"
+                  src={imageUrl}
+                  alt="Green double couch with wooden legs"
+                  borderRadius="lg"
+                />
+                <Stack spacing="1" padding="4">
+                  <Text fontSize="md" color="grey.700" lineHeight="shorter">
+                    {category.name.toUpperCase()}
+                  </Text>
+                  <Heading size="md" color="black" lineHeight="short">
+                    {item.name}
+                  </Heading>
+                  <Text fontSize="medium" color="grey.800">
+                    {authorFullName}
+                  </Text>
+                  <Text fontSize="medium" fontWeight="bold" color="grey.700">
+                    {company}
+                  </Text>
+                </Stack>
+              </CardBody>
+              <Divider />
+              <CardFooter display="flex" justifyContent="flex-end" padding="4">
+                <Share />
+                <Bookmark />
+              </CardFooter>
+            </Card>
+
+            {/* <h2>{category.name.toUpperCase()}</h2>
             <h2>{item.name}</h2>
+            <div
+              style={{
+                maxWidth: "25px",
+              }}
+            >
+              <LearningPath />
+            </div>
             <img src={imageUrl} alt={item.name} />
             {authorFullName && <span>Author: {authorFullName}</span>}
-            {company && <span>Company: {company}</span>}
+            {company && <span>Company: {company}</span>} */}
           </div>
         );
       })}
-      {/* <Card maxW="sm">
-        <CardBody>
-          <Image
-            src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-            alt="Green double couch with wooden legs"
-            borderRadius="lg"
-          />
-          <Stack mt="6" spacing="3">
-            <Heading size="md">Living room Sofa</Heading>
-            <Text>
-              This sofa is perfect for modern tropical spaces, baroque inspired
-              spaces, earthy toned spaces and for people who love a chic design
-              with a sprinkle of vintage design.
-            </Text>
-            <Text color="blue.600" fontSize="2xl">
-              $450
-            </Text>
-          </Stack>
-        </CardBody>
-        <Divider />
-        <CardFooter>
-          <ButtonGroup spacing="2">
-            <Button variant="solid" colorScheme="blue">
-              Buy now
-            </Button>
-            <Button variant="ghost" colorScheme="blue">
-              Add to cart
-            </Button>
-          </ButtonGroup>
-        </CardFooter>
-      </Card> */}
     </div>
   );
 }
