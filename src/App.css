@@ -14,3 +14,13 @@ h1 {
   color: #fff;
   font-size: 2rem;
 }
+
+h2 {
+  color: #fff;
+  font-size: 1.5em;
+}
+
+.chakra-card {
+  background-color: white;
+  text-align: left;
+}

@@ -7,7 +7,7 @@ import theme from "./theme.ts";
 import "./index.css";
 
 const client = new ApolloClient({
-  uri: "https://api.tigerhall.net/v2/",
+  uri: "https://tigerhall.com/api/v2/", // "https://api.tigerhall.net/v2/",
   cache: new InMemoryCache(),
 });
 
