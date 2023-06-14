@@ -15,8 +15,10 @@ import {
   Button,
   InputLeftAddon,
   InputRightAddon,
+  HStack,
+  Spinner,
 } from "@chakra-ui/react";
-import { Search2Icon } from "@chakra-ui/icons";
+import { Search2Icon, Loading } from "@chakra-ui/icons";
 import { useQuery, gql } from "@apollo/client";
 import { ReactComponent as LearningPath } from "./icons/LearningPath.svg";
 import { ReactComponent as Share } from "./icons/Share.svg";
@@ -289,6 +291,8 @@ const CONTENT_CARDS_2: any = gql`
   }
 `;
 
+let debounceTimer: number;
+
 function App() {
   const [cards, setCards] = useState([]);
   const [keyword, setKeyword] = useState("Cybersecurity");
@@ -300,7 +304,8 @@ function App() {
   });
 
   const handleSearch = (value: string) => {
-    setKeyword(value);
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => setKeyword(value), 300);
   };
 
   const handleChange = (e: any) => {
@@ -316,33 +321,19 @@ function App() {
 
   return (
     <div className="app">
-      <Stack spacing={4}>
-        <InputGroup>
-          <InputLeftAddon children="+234" />
-          <Input type="tel" placeholder="phone number" />
-        </InputGroup>
-
-        {/* If you add the size prop to `InputGroup`, it'll pass it to all its children. */}
-        <InputGroup size="sm">
-          <InputLeftAddon children="https://" />
-          <Input placeholder="mysite" />
-          <InputRightAddon children=".com" />
-        </InputGroup>
-      </Stack>
-      <InputGroup size="lg">
-        <Input pr="4.5rem" type="text" placeholder="Enter password" />
-        <InputRightElement width="4.5rem">
-          <Button h="1.75rem" size="sm">
-            Hide
-          </Button>
-        </InputRightElement>
-      </InputGroup>
       <h1>Tigerhall Content</h1>
-      <InputGroup display="flex" marginBottom={30}>
-        <InputLeftElement pointerEvents="none" top="12px" left="12px">
-          <Search2Icon />
-        </InputLeftElement>
+      <InputGroup
+        display="flex"
+        marginTop="30px"
+        marginBottom="30px"
+        backgroundColor={"grey.700"}
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Search2Icon zIndex="1" marginLeft="15px" />
         <Input
+          border="1px solid #797670"
+          position="absolute"
           height="40px"
           width="full"
           borderRadius={8}
@@ -350,10 +341,11 @@ function App() {
           size="lg"
           fontSize={16}
           padding={5}
-          paddingLeft="36px"
-          backgroundColor={"grey.700"}
+          paddingLeft="45px"
           onChange={handleChange}
+          backgroundColor={"grey.900"}
         />
+        {loading && <Spinner width={25} height={25} marginRight="15px" />}
       </InputGroup>
       {cards.map((item, i) => {
         const urlParts = item.image.uri.split("/");
@@ -395,23 +387,14 @@ function App() {
               </CardBody>
               <Divider />
               <CardFooter display="flex" justifyContent="flex-end" padding="4">
-                <Share />
-                <Bookmark />
+                <Button backgroundColor="white">
+                  <Share marginRight="10px" />
+                </Button>
+                <Button backgroundColor="white">
+                  <Bookmark />
+                </Button>
               </CardFooter>
             </Card>
-
-            {/* <h2>{category.name.toUpperCase()}</h2>
-            <h2>{item.name}</h2>
-            <div
-              style={{
-                maxWidth: "25px",
-              }}
-            >
-              <LearningPath />
-            </div>
-            <img src={imageUrl} alt={item.name} />
-            {authorFullName && <span>Author: {authorFullName}</span>}
-            {company && <span>Company: {company}</span>} */}
           </div>
         );
       })}
