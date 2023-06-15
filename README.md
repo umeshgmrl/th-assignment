@@ -2,6 +2,8 @@
 
 Tigerhall Content Cards is a dynamic and responsive project built using React.js, Vite.js, Chakra-UI, and managed with Yarn.
 
+Demo is live at https://th-assignment.vercel.app/
+
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
@@ -14,8 +16,8 @@ Before you begin, ensure you have met the following requirements:
 Clone the repository and navigate to the project directory:
 
 ```bash
-git clone https://github.com/username/tigerhall-content-cards.git
-cd tigerhall-content-cards
+git clone https://github.com/umeshgmrl/th-assignment
+cd th-assignment
 ```
 
 To install dependencies, run:
@@ -62,6 +64,10 @@ git push -u origin main
 
 Your site will be live once the deployment is done.
 
+You can also deloy it to Vercel using below button
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/umeshgmrl/th-assignment)
+
 ## Testing
 
 For running tests in the project, use the command:
@@ -69,10 +75,6 @@ For running tests in the project, use the command:
 ```bash
 yarn test
 ```
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
