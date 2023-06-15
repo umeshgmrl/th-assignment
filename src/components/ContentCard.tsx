@@ -13,10 +13,10 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { ContentCardEdge } from "../types/schemaTypes";
-import Clock from "../icons/Clock.svg";
-import Share from "../icons/Share.svg";
-import Bookmark from "../icons/Bookmark.svg";
-import PieChart from "../icons/PieChart.svg";
+import { ReactComponent as Clock } from "../icons/Clock.svg";
+import { ReactComponent as Share } from "../icons/Share.svg";
+import { ReactComponent as Bookmark } from "../icons/Bookmark.svg";
+import { ReactComponent as PieChart } from "../icons/PieChart.svg";
 import Icon from "../components/Icon";
 import { secondsToHoursAndMinutes, getRandomValue } from "../utils";
 
@@ -96,12 +96,7 @@ export default function ContentCard({ item }: Props) {
                 color="grey.900"
               >
                 <TagLabel display="flex" alignItems="center">
-                  <img
-                    height="15px"
-                    width="15px"
-                    src={PieChart}
-                    alt="PieChart icon"
-                  />{" "}
+                  <PieChart height="15px" width="15px" />
                   &nbsp;&nbsp;
                   <Text fontWeight="bold">
                     {percentageCompleted}% Completed
@@ -129,13 +124,7 @@ export default function ContentCard({ item }: Props) {
                 padding="5px 10px"
               >
                 <TagLabel display="flex" alignItems="center">
-                  <img
-                    height="15px"
-                    width="15px"
-                    src={Clock}
-                    alt="Clock icon"
-                  />{" "}
-                  &nbsp;&nbsp;
+                  <Clock height="15px" width="15px" /> &nbsp;&nbsp;
                   <Text fontWeight="bold">{length}</Text>
                 </TagLabel>
               </Tag>
@@ -159,15 +148,10 @@ export default function ContentCard({ item }: Props) {
         </CardBody>
         <CardFooter display="flex" justifyContent="flex-end" padding="4">
           <Button backgroundColor="white">
-            <img height="15px" width="15px" src={Share} alt="Share icon" />
+            <Share />
           </Button>
           <Button backgroundColor="white">
-            <img
-              height="15px"
-              width="15px"
-              src={Bookmark}
-              alt="Bookmark icon"
-            />
+            <Bookmark />
           </Button>
         </CardFooter>
       </Card>
