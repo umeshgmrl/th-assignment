@@ -1,6 +1,6 @@
 import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 
-export default function LoadingSkeleton() {
+const LoadingSkeleton = () => {
   return (
     <Box
       borderRadius={8}
@@ -20,4 +20,6 @@ export default function LoadingSkeleton() {
       />
     </Box>
   );
-}
+};
+
+export default LoadingSkeleton;

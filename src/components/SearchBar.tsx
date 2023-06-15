@@ -36,6 +36,7 @@ export default function SearchBar({ onChange, loading }: Props) {
       />
       {loading && (
         <Spinner
+          className="input-spinner"
           width={25}
           height={25}
           marginRight="15px"

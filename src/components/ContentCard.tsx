@@ -85,7 +85,7 @@ export default function ContentCard({ item }: Props) {
               alt="Green double couch with wooden legs"
               borderRadius="lg"
             />
-            {percentageCompleted && (
+            {percentageCompleted > 0 && (
               <Tag
                 position="absolute"
                 top="0px"

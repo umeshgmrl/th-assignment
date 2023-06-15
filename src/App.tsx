@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { Container, Grid, useBreakpointValue } from "@chakra-ui/react";
+import { Container, Grid, useBreakpointValue, Text } from "@chakra-ui/react";
 import ContentCardFragment from "./api/ContentCardFragment";
 import { GetContentCardsResponse, ContentCardEdge } from "./types/schemaTypes";
 import SearchBar from "./components/SearchBar";
@@ -8,7 +8,7 @@ import LoadingSkeleton from "./components/LoadingSkeleton";
 import ContentCard from "./components/ContentCard";
 import "./App.css";
 
-let debounceTimer: number;
+let debounceTimer: ReturnType<typeof setTimeout>;
 
 function App() {
   const [cards, setCards] = useState<ContentCardEdge[]>([]);
@@ -41,12 +41,18 @@ function App() {
         onChange={(e) => handleSearch(e.target.value)}
         loading={loading}
       />
+      {!cards.length && !loading && (
+        <Text fontSize="40px" color="white" lineHeight="taller" mb="30px">
+          No results found!
+        </Text>
+      )}
       <Grid
         templateColumns={`repeat(${columnCount}, 1fr)`}
         gap={4}
         width="full"
       >
         {!cards.length &&
+          loading &&
           Array(9)
             .fill(0)
             .map((_, i) => <LoadingSkeleton key={i} />)}
