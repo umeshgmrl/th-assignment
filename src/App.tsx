@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { Container, Grid, Box, useBreakpointValue } from "@chakra-ui/react";
+import { Container, Grid, useBreakpointValue } from "@chakra-ui/react";
 import ContentCardFragment from "./api/ContentCardFragment";
 import { GetContentCardsResponse, ContentCardEdge } from "./types/schemaTypes";
 import SearchBar from "./components/SearchBar";
