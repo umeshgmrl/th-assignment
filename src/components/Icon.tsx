@@ -1,18 +1,11 @@
 import { Box } from "@chakra-ui/react";
-import { ReactComponent as LearningPath } from "../icons/LearningPath.svg";
-import { ReactComponent as Podcast } from "../icons/Podcast.svg";
-import { ReactComponent as Ebook } from "../icons/Ebook.svg";
-import { ReactComponent as Event } from "../icons/Event.svg";
-import { ReactComponent as Stream } from "../icons/Stream.svg";
+import LearningPath from "../icons/LearningPath.svg";
+import Podcast from "../icons/Podcast.svg";
+import Ebook from "../icons/Ebook.svg";
+import Event from "../icons/Event.svg";
+import Stream from "../icons/Stream.svg";
 import { CSSProperties } from "react";
-
-enum IconType {
-  LearningPath = "LearningPath",
-  Podcast = "Podcast",
-  Ebook = "Ebook",
-  Event = "Event",
-  Stream = "Stream",
-}
+import { IconType } from "../types/schemaTypes";
 
 interface IconProps {
   type: IconType;
@@ -22,21 +15,21 @@ interface IconProps {
 const getIcon = (type: IconType) => {
   switch (type) {
     case IconType.LearningPath:
-      return <LearningPath />;
+      return <img src={LearningPath} alt="Learnig path" />;
     case IconType.Podcast:
-      return <Podcast />;
+      return <img src={Podcast} alt="Podcast" />;
     case IconType.Ebook:
-      return <Ebook />;
+      return <img src={Ebook} alt="Ebook" />;
     case IconType.Event:
-      return <Event />;
+      return <img src={Event} alt="Event" />;
     case IconType.Stream:
-      return <Stream />;
+      return <img src={Stream} alt="Stream" />;
     default:
       return null;
   }
 };
 
-const Icon = ({ type, style }: IconProps) => {
+const Icon = ({ type }: IconProps) => {
   return (
     <Box
       position="absolute"

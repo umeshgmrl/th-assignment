@@ -3,17 +3,9 @@ import chakraTheme from "@chakra-ui/theme";
 
 const { Button } = chakraTheme.components;
 
-const colors = {
-  brand: {
-    900: "#1a365d",
-    800: "#153e75",
-    700: "#2a69ac",
-  },
-};
-
 const theme = extendBaseTheme({
   styles: {
-    global: (props) => ({
+    global: () => ({
       body: {
         fontFamily: "body",
         color: "#fff",
@@ -51,10 +43,6 @@ const theme = extendBaseTheme({
         fontFamily: "body",
         fontSize: ["lg", "xl"],
         fontWeight: "bold",
-      },
-      input: {
-        fontFamily: "body",
-        fontWeight: "medium",
       },
     }),
   },

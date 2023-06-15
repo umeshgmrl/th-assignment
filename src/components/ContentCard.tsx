@@ -12,11 +12,11 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import { ContentCardEdge } from "./types/schemaTypes";
-import { ReactComponent as Clock } from "../icons/Clock.svg";
-import { ReactComponent as Share } from "../icons/Share.svg";
-import { ReactComponent as Bookmark } from "../icons/Bookmark.svg";
-import { ReactComponent as PieChart } from "../icons/PieChart.svg";
+import { ContentCardEdge } from "../types/schemaTypes";
+import Clock from "../icons/Clock.svg";
+import Share from "../icons/Share.svg";
+import Bookmark from "../icons/Bookmark.svg";
+import PieChart from "../icons/PieChart.svg";
 import Icon from "../components/Icon";
 import { secondsToHoursAndMinutes, getRandomValue } from "../utils";
 
@@ -96,7 +96,13 @@ export default function ContentCard({ item }: Props) {
                 color="grey.900"
               >
                 <TagLabel display="flex" alignItems="center">
-                  <PieChart height="15px" width="15px" /> &nbsp;&nbsp;
+                  <img
+                    height="15px"
+                    width="15px"
+                    src={PieChart}
+                    alt="PieChart icon"
+                  />{" "}
+                  &nbsp;&nbsp;
                   <Text fontWeight="bold">
                     {percentageCompleted}% Completed
                   </Text>
@@ -123,7 +129,13 @@ export default function ContentCard({ item }: Props) {
                 padding="5px 10px"
               >
                 <TagLabel display="flex" alignItems="center">
-                  <Clock height="15px" width="15px" /> &nbsp;&nbsp;
+                  <img
+                    height="15px"
+                    width="15px"
+                    src={Clock}
+                    alt="Clock icon"
+                  />{" "}
+                  &nbsp;&nbsp;
                   <Text fontWeight="bold">{length}</Text>
                 </TagLabel>
               </Tag>
@@ -147,10 +159,15 @@ export default function ContentCard({ item }: Props) {
         </CardBody>
         <CardFooter display="flex" justifyContent="flex-end" padding="4">
           <Button backgroundColor="white">
-            <Share />
+            <img height="15px" width="15px" src={Share} alt="Share icon" />
           </Button>
           <Button backgroundColor="white">
-            <Bookmark />
+            <img
+              height="15px"
+              width="15px"
+              src={Bookmark}
+              alt="Bookmark icon"
+            />
           </Button>
         </CardFooter>
       </Card>

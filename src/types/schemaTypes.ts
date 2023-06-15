@@ -1,3 +1,11 @@
+export enum IconType {
+  LearningPath = "LearningPath",
+  Podcast = "Podcast",
+  Ebook = "Ebook",
+  Event = "Event",
+  Stream = "Stream",
+}
+
 export type Image = {
   id: string;
   uri: string;
@@ -26,11 +34,11 @@ export type Expert = {
   image: Image;
   userId?: string;
   updatedAt: string;
-  __typename: string;
+  __typename: IconType;
 };
 
 export type Podcast = {
-  __typename: string;
+  __typename: IconType;
   id: string;
   name: string;
   timeSpentOnByUsers: number;
@@ -42,7 +50,7 @@ export type Podcast = {
 };
 
 export type Ebook = {
-  __typename: string;
+  __typename: IconType;
   id: string;
   name: string;
   slug: string;
@@ -53,7 +61,7 @@ export type Ebook = {
 };
 
 export type Event = {
-  __typename: string;
+  __typename: IconType;
   id: string;
   name: string;
   slug: string;
@@ -69,7 +77,7 @@ export type Event = {
 };
 
 export type Stream = {
-  __typename: string;
+  __typename: IconType;
   id: string;
   status: string;
   slug: string;
@@ -105,7 +113,7 @@ export type LearningPath = {
   sortOrder: number;
   image: Image;
   categories: Category[];
-  __typename: string;
+  __typename: IconType;
 };
 
 export type ContentCardEdge = {
